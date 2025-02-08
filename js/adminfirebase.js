@@ -1,4 +1,5 @@
-export const firebaseConfig = {
+// firebase.js
+const firebaseConfig = {
   apiKey: process.env.ADMIN_FIREBASE_API_KEY,
   authDomain: process.env.ADMIN_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.ADMIN_FIREBASE_DATABASE_URL,
@@ -7,3 +8,6 @@ export const firebaseConfig = {
   messagingSenderId: process.env.ADMIN_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.ADMIN_FIREBASE_APP_ID,
 };
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();

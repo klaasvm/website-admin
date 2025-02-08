@@ -26,7 +26,7 @@
     </div>
 
     <script type="module">
-        // Importeer de Firebase-configuratie
+        // Voeg de Firebase-configuratie in
         import { firebaseConfig } from './js/adminfirebase.js';
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -51,9 +51,6 @@
                     
                     // Vergelijk wachtwoord met opgeslagen wachtwoord
                     if (password === storedPassword) {
-                        // Zet isAuthenticated in localStorage om toegang te controleren
-                        localStorage.setItem("isAuthenticated", "true");
-
                         window.location.href = "admin.html"; // Als correct, doorsturen naar admin-pagina
                     } else {
                         alert("Ongeldig wachtwoord!");
