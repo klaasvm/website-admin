@@ -1,11 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Admin<span class="highlight">Login</span></h1>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Inloggen</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // Voeg de Firebase-configuratie in
+        import { firebaseConfig } from './js/adminfirebase.js';
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Firebase initialiseren
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Formulier submit event
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Voorkom standaard formulier verzenden
+
+            // Haal ingevoerde waarden op
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Haal gebruikersgegevens op uit de database
+            const userRef = ref(db, 'users/' + username);
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const storedPassword = snapshot.val().password;
+                    
+                    // Vergelijk wachtwoord met opgeslagen wachtwoord
+                    if (password === storedPassword) {
+                        window.location.href = "admin.html"; // Als correct, doorsturen naar admin-pagina
+                    } else {
+                        alert("Ongeldig wachtwoord!");
+                    }
+                } else {
+                    alert("Gebruiker niet gevonden!");
+                }
+            }).catch((error) => {
+                console.error("Fout bij ophalen gegevens:", error);
+            });
+        });
+    </script>
 </body>
 </html>
